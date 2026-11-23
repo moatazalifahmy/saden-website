@@ -69,26 +69,10 @@
     { iso: "JP", dial: "+81",  ar: "اليابان", en: "Japan", sample: "90 XXXX XXXX" }
   ];
 
-  // Safe storage helpers (prevents SecurityError in private mode, in-app browsers, or file://)
-  function safeStorageGet(key, fallback) {
-    try {
-      const val = window.localStorage.getItem(key);
-      return val !== null ? val : fallback;
-    } catch (e) {
-      return fallback;
-    }
-  }
-
-  function safeStorageSet(key, val) {
-    try {
-      window.localStorage.setItem(key, val);
-    } catch (e) {}
-  }
-
-  // App state
+  // App state (Always opens in English + Dark Mode on every fresh load / reopen)
   const state = {
-    lang: safeStorageGet("saden-lang", "ar"),
-    theme: safeStorageGet("saden-theme", "dark"),
+    lang: "en",
+    theme: "dark",
     serviceFilter: "all",
     personaId: "developers",
     activeLayer: null,
@@ -197,11 +181,10 @@
     }
   }
 
-  // Apply Theme
+  // Apply Theme (session-only so reopening always starts in Dark Mode)
   function applyTheme(theme) {
     state.theme = theme;
     document.documentElement.setAttribute("data-theme", theme);
-    safeStorageSet("saden-theme", theme);
     updateThemeButton();
   }
 
@@ -267,12 +250,11 @@
     }
   }
 
-  // Apply Language & Render Everything
+  // Apply Language & Render Everything (session-only so reopening always starts in English)
   function applyLang(lang, preserveScroll = false) {
     const anchor = preserveScroll ? captureScrollAnchor() : null;
 
     state.lang = lang;
-    safeStorageSet("saden-lang", lang);
     const isAr = lang === "ar";
     document.documentElement.lang = lang;
     document.documentElement.dir = isAr ? "rtl" : "ltr";
