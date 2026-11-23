@@ -580,6 +580,7 @@
     if (select && serviceId && Array.from(select.options).some((o) => o.value === serviceId)) {
       select.value = serviceId;
       select.classList.toggle("is-placeholder", select.value === "");
+      updateContactSubmitState();
     }
     const contact = $("#contact");
     if (contact) contact.scrollIntoView({ behavior: "smooth" });
@@ -1020,6 +1021,20 @@
     el.classList.toggle("is-placeholder", !el.value);
   }
 
+  function updateContactSubmitState() {
+    const form = $("#contact-form");
+    const submitBtn = $("#contact-submit");
+    if (!form || !submitBtn) return;
+    const requiredFields = $$("[required]", form);
+    const isComplete = requiredFields.every((field) => {
+      const val = typeof field.value === "string" ? field.value.trim() : "";
+      if (!val) return false;
+      return typeof field.checkValidity === "function" ? field.checkValidity() : true;
+    });
+    submitBtn.disabled = !isComplete;
+    submitBtn.classList.toggle("is-inactive", !isComplete);
+  }
+
   function renderFormOptions(t) {
     const svc = $("#input-service");
     const scl = $("#input-scale");
@@ -1044,6 +1059,7 @@
     }
     renderPhoneCountryList();
     applySelectedPhoneCountry(state.phoneCountryIso, false);
+    updateContactSubmitState();
   }
 
   // Country Dial Code Selector & Auto-Detection for Phone Input
@@ -1828,9 +1844,17 @@
     const form = $("#contact-form");
     const successBox = $("#form-success");
     const resetFormBtn = $("#form-reset");
+    if (form) {
+      form.addEventListener("input", updateContactSubmitState);
+      form.addEventListener("change", updateContactSubmitState);
+      updateContactSubmitState();
+    }
     if (form && successBox) {
       form.addEventListener("submit", (e) => {
         e.preventDefault();
+        updateContactSubmitState();
+        const submitBtn = $("#contact-submit");
+        if (submitBtn && submitBtn.disabled) return;
         playLogoLoaderTransition(() => {
           form.style.display = "none";
           successBox.classList.add("visible");
@@ -1843,6 +1867,7 @@
         if (scaleSelect) { scaleSelect.value = ""; syncSelectPlaceholder(scaleSelect); }
         if (serviceSelect) { serviceSelect.value = ""; syncSelectPlaceholder(serviceSelect); }
         applySelectedPhoneCountry("EG", false);
+        updateContactSubmitState();
         successBox.classList.remove("visible");
         form.style.display = "block";
       });
