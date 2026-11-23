@@ -798,6 +798,8 @@ button {
 .lg-pill {
   display: inline-flex;
   align-items: center;
+  flex-wrap: nowrap;
+  max-width: 100%;
   gap: 8px;
   padding: 7px 16px;
   border-radius: var(--radius-pill);
@@ -811,7 +813,13 @@ button {
     inset 0 -1px 0 var(--lg-caustic-bottom);
   font-size: 0.82rem;
   font-weight: 600;
+  line-height: 1.45;
   color: var(--text-primary);
+}
+
+.lg-pill > span:not(.lg-pill__dot) {
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .lg-pill__dot {
@@ -1619,7 +1627,7 @@ html[lang="en"] .section-title {
 
 html[lang="en"] .lg-pill {
   max-width: 100%;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .hero-title__accent {
@@ -2487,8 +2495,11 @@ html.js-ready .rise-card.is-risen {
 .media-card__badge-row {
   position: absolute;
   top: 10px;
+  left: 10px;
+  right: 10px;
   inset-inline: 10px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 6px;
@@ -3829,35 +3840,41 @@ html.js-ready .reveal.in-view {
   .section-header {
     margin-bottom: 24px;
   }
-  .section-title {
-    font-size: clamp(1.5rem, 6.2vw, 2rem);
+  .section-title,
+  html[lang="en"] .section-title {
+    font-size: clamp(1.38rem, 5.8vw, 1.92rem);
+    line-height: 1.22;
   }
   .section-subtitle {
-    font-size: 0.92rem;
+    font-size: 0.90rem;
   }
   .section-glass-frame {
     padding: 22px 16px;
     border-radius: 24px;
   }
 
-  /* Compact Single-Row Mobile Navbar */
+  /* Compact Single-Row Mobile Navbar (mirrors laptop layout cleanly) */
   .navbar {
     min-height: 60px;
     padding: 6px 10px;
     gap: 8px;
   }
   .mobile-drawer {
-    inset-block-start: calc(max(12px, env(safe-area-inset-top)) + 70px);
+    top: 82px;
+    top: calc(max(12px, env(safe-area-inset-top)) + 70px);
     padding: 14px;
   }
   .nav-brand-cluster {
-    gap: 7px;
+    gap: 6px;
   }
   .nav-brand {
     padding: 3px 4px;
   }
   .nav-brand-symbol {
     height: 36px;
+  }
+  .nav-brand-wordmark {
+    min-width: auto;
   }
   .nav-brand-wordmark svg {
     height: 9px;
@@ -3900,19 +3917,29 @@ html.js-ready .reveal.in-view {
     padding-inline: 8px;
   }
 
+  /* Crisp Pill Badges on Mobile (Dot stays inline with text, never orphaned above) */
+  .lg-pill {
+    font-size: clamp(0.68rem, 3vw, 0.78rem);
+    padding: 6px 12px;
+    gap: 7px;
+    border-radius: 20px;
+  }
+
   /* Hero Mobile Layout */
   .hero {
     padding-top: calc(max(12px, env(safe-area-inset-top)) + 84px);
     padding-bottom: 18px;
   }
   .hero-content {
-    gap: 16px;
+    gap: 15px;
   }
-  .hero-title {
-    font-size: clamp(2rem, 8.8vw, 2.75rem);
+  .hero-title,
+  html[lang="en"] .hero-title {
+    font-size: clamp(1.78rem, 7.6vw, 2.5rem);
+    line-height: 1.15;
   }
   .hero-subtitle {
-    font-size: 0.94rem;
+    font-size: 0.92rem;
     line-height: 1.72;
   }
   .hero-actions {
@@ -3920,10 +3947,36 @@ html.js-ready .reveal.in-view {
     gap: 10px;
   }
   .hero-actions .lg-btn {
-    flex: 1 1 160px;
-    min-height: 46px;
-    padding: 12px 18px;
-    font-size: 0.88rem;
+    flex: 1 1 135px;
+    min-height: 44px;
+    padding: 11px 16px;
+    font-size: 0.85rem;
+  }
+  html.js-ready .hero-enter-visual:not(.is-entered) {
+    transform: translate3d(-45px, 0, 0) rotateY(-180deg);
+  }
+  html.js-ready[dir="ltr"] .hero-enter-visual:not(.is-entered) {
+    transform: translate3d(45px, 0, 0) rotateY(180deg);
+  }
+  html.js-ready .hero-enter-text:not(.is-entered) {
+    transform: translate3d(36px, 0, 0);
+  }
+  html.js-ready[dir="ltr"] .hero-enter-text:not(.is-entered) {
+    transform: translate3d(-36px, 0, 0);
+  }
+  .media-pill-dark {
+    font-size: 0.65rem;
+    padding: 4px 9px;
+  }
+  .service-card__top {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .series-topic-item {
+    padding: 12px 14px;
+  }
+  .modal-body .bento-card-title {
+    font-size: 1.18rem !important;
   }
   .hero-frame {
     padding: 10px;
@@ -4091,11 +4144,49 @@ html.js-ready .reveal.in-view {
 
 /* Very Small Phones (<= 390px) */
 @media (max-width: 390px) {
-  .nav-brand-wordmark {
-    display: none;
+  .navbar {
+    padding: 5px 8px;
+    gap: 5px;
+  }
+  .nav-brand-symbol {
+    height: 32px;
+  }
+  .nav-brand-wordmark svg {
+    height: 8px;
+  }
+  .nav-brand-wordmark img.nav-brand-wordmark-ar {
+    height: 11px;
+  }
+  .nav-controls {
+    gap: 4px;
+  }
+  .lg-switch {
+    width: 54px;
+    height: 30px;
+    padding: 2.5px;
+  }
+  .lg-switch__thumb {
+    top: 2.5px;
+    left: 2.5px;
+    width: 25px;
+    height: 25px;
+  }
+  .lg-switch__slot {
+    width: 25px;
+    height: 25px;
+    font-size: 0.62rem;
+  }
+  .lg-switch.is-right .lg-switch__thumb {
+    transform: translateX(24px);
+  }
+  .lg-control-btn {
+    height: 32px;
+    min-width: 32px;
+    padding-inline: 6px;
   }
   .hero-metrics {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
   .section-glass-frame {
     padding: 18px 13px;
