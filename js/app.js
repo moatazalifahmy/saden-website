@@ -69,10 +69,27 @@
     { iso: "JP", dial: "+81",  ar: "اليابان", en: "Japan", sample: "90 XXXX XXXX" }
   ];
 
-  // App state (Always opens in English + Dark Mode on every fresh load / reopen)
+  // Safe sessionStorage helpers: preserves language/theme on refresh within the open tab,
+  // and resets cleanly to English + Dark Mode whenever the site is closed and reopened
+  function safeSessionGet(key, fallback) {
+    try {
+      const val = window.sessionStorage.getItem(key);
+      return val !== null ? val : fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function safeSessionSet(key, val) {
+    try {
+      window.sessionStorage.setItem(key, val);
+    } catch (e) {}
+  }
+
+  // App state (Default: English + Dark Mode on every new open; preserved across refreshes via sessionStorage)
   const state = {
-    lang: "en",
-    theme: "dark",
+    lang: safeSessionGet("saden-lang", "en"),
+    theme: safeSessionGet("saden-theme", "dark"),
     serviceFilter: "all",
     personaId: "developers",
     activeLayer: null,
@@ -181,10 +198,11 @@
     }
   }
 
-  // Apply Theme (session-only so reopening always starts in Dark Mode)
+  // Apply Theme (saved to sessionStorage: persists on refresh, resets to Dark Mode on close & reopen)
   function applyTheme(theme) {
     state.theme = theme;
     document.documentElement.setAttribute("data-theme", theme);
+    safeSessionSet("saden-theme", theme);
     updateThemeButton();
   }
 
@@ -250,11 +268,12 @@
     }
   }
 
-  // Apply Language & Render Everything (session-only so reopening always starts in English)
+  // Apply Language & Render Everything (saved to sessionStorage: persists on refresh, resets to English on close & reopen)
   function applyLang(lang, preserveScroll = false) {
     const anchor = preserveScroll ? captureScrollAnchor() : null;
 
     state.lang = lang;
+    safeSessionSet("saden-lang", lang);
     const isAr = lang === "ar";
     document.documentElement.lang = lang;
     document.documentElement.dir = isAr ? "rtl" : "ltr";
