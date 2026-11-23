@@ -3947,10 +3947,17 @@ html.js-ready .reveal.in-view {
     gap: 10px;
   }
   .hero-actions .lg-btn {
-    flex: 1 1 135px;
-    min-height: 44px;
-    padding: 11px 16px;
-    font-size: 0.85rem;
+    flex: 1 1 auto;
+    min-width: max-content;
+    max-width: 100%;
+    min-height: 46px;
+    padding: 12px 20px;
+    font-size: 0.86rem;
+  }
+  .modal-actions .lg-btn {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.35;
   }
   html.js-ready .hero-enter-visual:not(.is-entered) {
     transform: translate3d(-45px, 0, 0) rotateY(-180deg);
@@ -4183,6 +4190,15 @@ html.js-ready .reveal.in-view {
     height: 32px;
     min-width: 32px;
     padding-inline: 6px;
+  }
+  .lg-btn {
+    max-width: 100%;
+  }
+  .hero-actions .lg-btn {
+    min-width: 0;
+    width: 100%;
+    white-space: normal;
+    text-align: center;
   }
   .hero-metrics {
     grid-template-columns: repeat(2, 1fr);
