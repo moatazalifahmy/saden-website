@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/styles.css?v=20261123" />
+  <link rel="stylesheet" href="css/styles.css?v=20261123c" />
 </head>
 <body>
   <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
@@ -531,15 +531,46 @@
             <h4 class="footer-col-title" data-i18n="footer.resourcesTitle"></h4>
             <ul class="footer-links">
               <li><a href="#contact" data-i18n="footer.requestService"></a></li>
-              <li><a href="https://wa.me/201508508123" target="_blank" rel="noopener" dir="ltr">@Sir.SADEN</a></li>
-              <li><a href="https://www.sadens.com" target="_blank" rel="noopener" dir="ltr">www.sadens.com</a></li>
-              <li><a href="mailto:info@sadens.com" dir="ltr">info@sadens.com</a></li>
+              <li>
+                <a href="https://wa.me/201508508123" target="_blank" rel="noopener" class="footer-contact-link">
+                  <svg class="footer-contact-link__icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21z"/>
+                    <path d="M9.6 8.6c-.2-.4-.4-.4-.6-.4h-.4c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.2s1 2.6 1.1 2.8c.1.2 1.9 2.9 4.6 4 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1-.2.3-.7.8-.8 1-.2.2-.3.2-.6.1a7 7 0 0 1-2.1-1.3 7.7 7.7 0 0 1-1.4-1.8c-.1-.2 0-.4.1-.5l.4-.4c.1-.2.2-.3.3-.5.1-.2 0-.3 0-.5l-.8-1.6z" fill="currentColor" stroke="none"/>
+                  </svg>
+                  <span data-i18n="footer.whatsappLink">واتساب</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.sadens.com" target="_blank" rel="noopener" class="footer-contact-link">
+                  <svg class="footer-contact-link__icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
+                  </svg>
+                  <span data-i18n="footer.websiteLink">الموقع الإلكتروني</span>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@sadens.com" class="footer-contact-link">
+                  <svg class="footer-contact-link__icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/>
+                  </svg>
+                  <span data-i18n="footer.emailLink">البريد الإلكتروني</span>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         <div class="footer-bottom">
-          <span data-i18n="footer.copyRight"></span>
+          <div class="footer-copy-group">
+            <span data-i18n="footer.copyRight"></span>
+            <span class="footer-copy-sep" aria-hidden="true">·</span>
+            <span class="footer-credit-inline">
+              <span data-i18n="footer.designedBy">تم التصميم بواسطة</span>
+              <a href="https://www.lamezo.com" target="_blank" rel="noopener" class="footer-credit__link" aria-label="Lamezo" title="www.lamezo.com">
+                <img src="assets/designer-logo.png" alt="Lamezo" class="footer-credit__logo" />
+              </a>
+            </span>
+          </div>
 
           <!-- Social Media Liquid Glass Icons -->
           <div class="social-links" aria-label="Social Media">
@@ -564,12 +595,6 @@
           </div>
 
           <span class="footer-domain-text" dir="ltr">www.sadens.com</span>
-        </div>
-
-        <!-- Designer Credit Line -->
-        <div class="footer-credit">
-          <span data-i18n="footer.designedBy">تم التصميم بواسطة</span>
-          <img src="assets/designer-logo.png" alt="Designer Logo" class="footer-credit__logo" />
         </div>
       </div>
     </div>
@@ -641,8 +666,8 @@
   </div>
 
   <!-- Scripts (Zero-build vanilla ES6, works both over file:// and HTTP) -->
-  <script src="js/logo-paths.js?v=20261123"></script>
-  <script src="js/translations.js?v=20261123"></script>
-  <script src="js/app.js?v=20261123"></script>
+  <script src="js/logo-paths.js?v=20261123c"></script>
+  <script src="js/translations.js?v=20261123c"></script>
+  <script src="js/app.js?v=20261123c"></script>
 </body>
 </html>

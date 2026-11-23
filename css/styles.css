@@ -3028,6 +3028,27 @@ textarea.lg-input {
     inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
+.footer-contact-link {
+  gap: 9px;
+}
+
+.footer-contact-link__icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--accent-text);
+  stroke: currentColor;
+  stroke-width: 1.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  transition: transform var(--t-fast) var(--ease-spring), color var(--t-fast) ease;
+}
+
+.footer-contact-link:hover .footer-contact-link__icon {
+  transform: scale(1.08);
+}
+
 .footer-bottom {
   padding-top: 20px;
   display: flex;
@@ -3037,6 +3058,51 @@ textarea.lg-input {
   gap: 16px;
   font-size: 0.82rem;
   color: var(--text-muted);
+}
+
+.footer-copy-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-copy-sep {
+  opacity: 0.45;
+  user-select: none;
+}
+
+.footer-credit-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.footer-bottom a.footer-credit__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 7px;
+  margin-inline-start: 0;
+  border-radius: 10px;
+  transition:
+    transform var(--t-fast) var(--ease-spring),
+    background var(--t-fast) ease,
+    border-color var(--t-fast) ease,
+    box-shadow var(--t-fast) ease;
+}
+
+.footer-bottom a.footer-credit__link:hover {
+  transform: translateY(-2px) scale(1.06);
+}
+
+.footer-credit__logo {
+  height: 26px;
+  width: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .footer-domain-text {
@@ -3118,27 +3184,6 @@ textarea.lg-input {
     0 10px 22px -8px rgba(197, 153, 75, 0.36),
     inset 0 1.5px 0 rgba(255, 255, 255, 0.96),
     inset 0 0 10px rgba(197, 153, 75, 0.22);
-}
-
-/* Designer Credit Line at Bottom of Footer */
-.footer-credit {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid var(--divider);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-.footer-credit__logo {
-  height: 30px;
-  width: auto;
-  display: block;
-  object-fit: contain;
 }
 
 /* Series Topics List & Second-Level Topic Modal */
@@ -3752,6 +3797,9 @@ html.js-ready .reveal.in-view {
     align-items: center;
     text-align: center;
     gap: 12px;
+  }
+  .footer-copy-group {
+    justify-content: center;
   }
 }
 
