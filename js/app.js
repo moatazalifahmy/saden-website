@@ -86,10 +86,31 @@
     } catch (e) {}
   }
 
-  // App state (Default: English + Dark Mode on every new open; preserved across refreshes via sessionStorage)
+  function isMobileDevice() {
+    try {
+      const mobileUa = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || "");
+      const narrowViewport = window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+      const coarseSmall = window.matchMedia && window.matchMedia("(pointer: coarse) and (max-width: 900px)").matches;
+      return Boolean(mobileUa || narrowViewport || coarseSmall);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function getInitialTheme() {
+    const saved = safeSessionGet("saden-theme", null);
+    if (saved === "dark" || saved === "light") return saved;
+    if (isMobileDevice() && window.matchMedia) {
+      if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+    }
+    return "dark";
+  }
+
+  // App state (Desktop: EN + Dark Mode; Mobile: EN + follows phone Dark/Light system theme; preserved on refresh via sessionStorage)
   const state = {
     lang: safeSessionGet("saden-lang", "en"),
-    theme: safeSessionGet("saden-theme", "dark"),
+    theme: getInitialTheme(),
     serviceFilter: "all",
     personaId: "developers",
     activeLayer: null,
@@ -198,11 +219,11 @@
     }
   }
 
-  // Apply Theme (saved to sessionStorage: persists on refresh, resets to Dark Mode on close & reopen)
-  function applyTheme(theme) {
+  // Apply Theme (persists manual toggle in sessionStorage across refreshes; mobile follows OS theme until toggled)
+  function applyTheme(theme, persist = false) {
     state.theme = theme;
     document.documentElement.setAttribute("data-theme", theme);
-    safeSessionSet("saden-theme", theme);
+    if (persist) safeSessionSet("saden-theme", theme);
     updateThemeButton();
   }
 
@@ -1687,12 +1708,27 @@
     const footerBrand = $("#footer-brand-logo");
     if (footerBrand) footerBrand.addEventListener("click", handleLogoReplayClick);
 
-    // Theme toggle
+    // Theme toggle (manual choice persists across refreshes via sessionStorage)
     const themeBtn = $("#theme-toggle");
     if (themeBtn) {
       themeBtn.addEventListener("click", () => {
-        applyTheme(state.theme === "dark" ? "light" : "dark");
+        applyTheme(state.theme === "dark" ? "light" : "dark", true);
       });
+    }
+
+    // Live sync with mobile OS Dark/Light theme if user hasn't manually overridden during this session
+    if (window.matchMedia) {
+      const colorSchemeMq = window.matchMedia("(prefers-color-scheme: light)");
+      const onSystemThemeChange = (ev) => {
+        if (!isMobileDevice()) return;
+        if (safeSessionGet("saden-theme", null)) return;
+        applyTheme(ev.matches ? "light" : "dark", false);
+      };
+      if (typeof colorSchemeMq.addEventListener === "function") {
+        colorSchemeMq.addEventListener("change", onSystemThemeChange);
+      } else if (typeof colorSchemeMq.addListener === "function") {
+        colorSchemeMq.addListener(onSystemThemeChange);
+      }
     }
 
     // Language toggle preserving exact viewport scroll position (Point 14)
