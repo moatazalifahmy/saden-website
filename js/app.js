@@ -1255,6 +1255,18 @@
         closePhoneCodeMenu();
       }
     });
+
+    // Close the country code dropdown automatically when scrolling outside of it (keeping current selection)
+    const closeOnOutsideScroll = (e) => {
+      if (!menu.classList.contains("open")) return;
+      if (e && e.target && menu.contains(e.target)) return;
+      closePhoneCodeMenu();
+    };
+    window.addEventListener("scroll", () => {
+      if (menu.classList.contains("open")) closePhoneCodeMenu();
+    }, { passive: true });
+    window.addEventListener("wheel", closeOnOutsideScroll, { passive: true });
+    window.addEventListener("touchmove", closeOnOutsideScroll, { passive: true });
   }
 
   // Interactive pointer-tracking Liquid Glass specular highlight

@@ -2895,6 +2895,8 @@ select.lg-input.is-placeholder {
 .phone-code-menu__list {
   max-height: 230px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: 6px;
   display: flex;
   flex-direction: column;
