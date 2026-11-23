@@ -2198,21 +2198,22 @@ html.js-ready .rise-card.is-risen {
 }
 
 .anatomy-stage {
-  padding: clamp(32px, 4vw, 48px);
+  padding: clamp(22px, 2.8vw, 32px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 26px;
-  min-height: 440px;
+  gap: 18px;
+  min-height: 0;
+  height: 100%;
 }
 
 /* Exact Symbol Aspect Ratio (153.07 : 174.04) + Official Clear Space Padding */
 .anatomy-vitrine {
   position: relative;
-  width: min(290px, 76%);
+  width: min(225px, 64%);
   aspect-ratio: 153.07 / 174.04;
-  padding: 28px;
+  padding: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2325,7 +2326,9 @@ html.js-ready .rise-card.is-risen {
 .anatomy-list {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 12px;
+  height: 100%;
 }
 
 .anatomy-item {
