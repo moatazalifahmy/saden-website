@@ -3350,6 +3350,13 @@ textarea.lg-input {
   line-height: 1.8;
 }
 
+/* Lock background page scrolling whenever any modal is open */
+html.modal-open,
+body.modal-open {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
 /* ===========================
    LIQUID GLASS BRIEF MODAL
    =========================== */
@@ -3368,6 +3375,7 @@ textarea.lg-input {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overscroll-behavior: contain;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--t-fast) ease;
@@ -3395,8 +3403,72 @@ textarea.lg-input {
   transform: translateY(0) scale(1);
 }
 
+/* Floating top-corner Close icon on Series modals: Top-Right in EN (LTR), Top-Left in AR (RTL) */
+.modal-dialog > .modal-close-x {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  inset-inline-end: 14px;
+  z-index: 15;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #F4F3EF;
+  background: rgba(16, 16, 15, 0.56);
+  backdrop-filter: blur(14px) saturate(185%);
+  -webkit-backdrop-filter: blur(14px) saturate(185%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 8px 20px -6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition:
+    transform var(--t-fast) var(--ease-spring),
+    color var(--t-fast) ease,
+    background var(--t-fast) ease,
+    border-color var(--t-fast) ease,
+    box-shadow var(--t-med) var(--ease-liquid);
+}
+
+html[dir="ltr"] .modal-dialog > .modal-close-x {
+  right: 14px;
+  left: auto;
+}
+
+html[dir="rtl"] .modal-dialog > .modal-close-x {
+  left: 14px;
+  right: auto;
+}
+
+.modal-close-x svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.modal-dialog > .modal-close-x:hover {
+  transform: scale(1.1);
+  color: #e6c27a;
+  background: rgba(24, 21, 15, 0.78);
+  border-color: rgba(212, 169, 92, 0.82);
+  box-shadow:
+    0 0 22px rgba(197, 153, 75, 0.52),
+    0 10px 22px -8px rgba(0, 0, 0, 0.62),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.62),
+    inset 0 0 12px rgba(197, 153, 75, 0.28);
+}
+
 .modal-scroll {
   overflow-y: auto;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   flex: 1 1 auto;
   min-height: 0;
@@ -3418,6 +3490,7 @@ textarea.lg-input {
   flex-direction: column;
   gap: 16px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   flex: 1 1 auto;
   min-height: 0;

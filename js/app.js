@@ -760,8 +760,12 @@
     $("#modal-title").innerHTML = formatBrandWordmark(series.pillar);
     $("#modal-summary").innerHTML = formatBrandWordmark(series.seriesBrief);
     $("#modal-topics-heading").innerHTML = formatBrandWordmark(t.media.topicsHeading);
-    $("#modal-cta").innerHTML = formatBrandWordmark(t.media.modalCta);
     $("#modal-close-text").textContent = t.media.close;
+    const closeX = $("#modal-close-x");
+    if (closeX) {
+      closeX.setAttribute("aria-label", t.media.close);
+      closeX.setAttribute("title", t.media.close);
+    }
 
     const listEl = $("#modal-topics-list");
     listEl.innerHTML = (series.topics || []).map((tp, idx) => {
@@ -789,6 +793,28 @@
     return true;
   }
 
+  // Strict background page scroll lock while any modal is open
+  function lockPageScroll() {
+    if (document.documentElement.classList.contains("modal-open")) return;
+    const sbw = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.classList.add("modal-open");
+    document.body.classList.add("modal-open");
+    if (sbw > 0) {
+      document.body.style.paddingRight = `${sbw}px`;
+      const navWrap = $(".navbar-wrap");
+      if (navWrap) navWrap.style.paddingRight = `calc(clamp(10px, 3vw, 32px) + ${sbw}px)`;
+    }
+  }
+
+  function unlockPageScroll() {
+    if (state.seriesModalId || state.topicModalState || state.detailModalOpen) return;
+    document.documentElement.classList.remove("modal-open");
+    document.body.classList.remove("modal-open");
+    document.body.style.paddingRight = "";
+    const navWrap = $(".navbar-wrap");
+    if (navWrap) navWrap.style.paddingRight = "";
+  }
+
   function resetModalScroll(modalEl) {
     if (!modalEl) return;
     const targets = [
@@ -812,14 +838,14 @@
     const modal = $("#media-modal");
     modal.classList.add("open");
     resetModalScroll(modal);
-    document.body.style.overflow = "hidden";
+    lockPageScroll();
   }
 
   function closeSeriesModal(keepLock = false) {
     state.seriesModalId = null;
     const modal = $("#media-modal");
     modal.classList.remove("open");
-    if (!keepLock) document.body.style.overflow = "";
+    if (!keepLock) unlockPageScroll();
   }
 
   function populateTopicModal(seriesId, topicId) {
@@ -857,13 +883,13 @@
     const modal = $("#topic-modal");
     modal.classList.add("open");
     resetModalScroll(modal);
-    document.body.style.overflow = "hidden";
+    lockPageScroll();
   }
 
   function closeTopicModal() {
     state.topicModalState = null;
     $("#topic-modal").classList.remove("open");
-    document.body.style.overflow = "";
+    unlockPageScroll();
   }
 
   // Expanded Card Detail Modal for Section 01 & Section 02 (Points 10 & 11)
@@ -904,14 +930,14 @@
     const modal = $("#detail-modal");
     modal.classList.add("open");
     resetModalScroll(modal);
-    document.body.style.overflow = "hidden";
+    lockPageScroll();
   }
 
   function closeDetailModal() {
     state.detailModalOpen = false;
     detailModalCtaHandler = null;
     $("#detail-modal").classList.remove("open");
-    document.body.style.overflow = "";
+    unlockPageScroll();
   }
 
   // Bind click-to-expand on the 4 static Section 01 cards (Story, Archetype, Vision, Mission)
@@ -1665,14 +1691,18 @@
     }
     const modalCloseBtn = $("#modal-close");
     if (modalCloseBtn) modalCloseBtn.addEventListener("click", () => closeSeriesModal());
-    const modalCta = $("#modal-cta");
-    if (modalCta) {
-      modalCta.addEventListener("click", () => {
-        closeSeriesModal();
-        const contact = $("#contact");
-        if (contact) contact.scrollIntoView({ behavior: "smooth" });
-      });
-    }
+    const modalCloseX = $("#modal-close-x");
+    if (modalCloseX) modalCloseX.addEventListener("click", () => closeSeriesModal());
+
+    // Prevent wheel/touch scrolling on darkened modal backdrops from ever moving the background page
+    $$(".modal-backdrop").forEach((backdrop) => {
+      backdrop.addEventListener("wheel", (e) => {
+        if (e.target === backdrop) e.preventDefault();
+      }, { passive: false });
+      backdrop.addEventListener("touchmove", (e) => {
+        if (e.target === backdrop) e.preventDefault();
+      }, { passive: false });
+    });
 
     // Topic Reader Modal events
     const topicModal = $("#topic-modal");
