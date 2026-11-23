@@ -1138,6 +1138,7 @@ main {
 .nav-brand-wordmark {
   display: inline-flex;
   align-items: center;
+  min-width: 72px;
   color: var(--brand-gold);
   pointer-events: none;
   user-select: none;
@@ -1262,6 +1263,12 @@ html[lang="en"] .nav-links .nav-link {
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+}
+
+/* Lock desktop CTA width across AR/EN so #lang-toggle & #theme-toggle stay at the exact same pixel under the cursor */
+.nav-cta-desktop {
+  min-width: 158px;
+  justify-content: center;
 }
 
 .lg-control-btn {

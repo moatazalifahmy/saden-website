@@ -227,50 +227,149 @@
     btn.setAttribute("title", isAr ? "Switch to English" : "التبديل إلى العربية");
   }
 
-  // Capture current anchor section & exact offset before switching language (Point 14)
+  // Fine-grained element-level scroll anchor capture & zero-flicker restoration across AR <-> EN switches
+  function collectScrollAnchorEntries() {
+    const entries = [];
+    const addBySelector = (selector) => {
+      const el = $(selector);
+      if (el) entries.push({ el, find: () => $(selector) });
+    };
+    const addByAttr = (selector, attr) => {
+      $$(selector).forEach((el) => {
+        const val = el.getAttribute(attr);
+        if (val) entries.push({ el, find: () => $(`[${attr}="${val}"]`) });
+      });
+    };
+    const addByIndex = (selector) => {
+      $$(selector).forEach((el, idx) => {
+        entries.push({ el, find: () => $$(selector)[idx] || null });
+      });
+    };
+
+    // High-granularity cards, headers, and interactive blocks
+    addBySelector("#hero .hero-content");
+    addByIndex("#hero-metrics .metric-card");
+    addByAttr("[data-about-card]", "data-about-card");
+    addByIndex("#values-grid .value-card");
+    addByAttr("[data-service-card]", "data-service-card");
+    addBySelector(".dual-core-grid");
+    addBySelector("#persona-panel");
+    addBySelector(".anatomy-stage");
+    addByAttr("#anatomy-list [data-layer]", "data-layer");
+    addByAttr("[data-media-open]", "data-media-open");
+    addBySelector("#contact .contact-info");
+    addBySelector("#contact-form");
+    addBySelector(".footer-grid");
+    addBySelector(".footer-bottom");
+
+    // Section headers & fallback sections
+    $$("section[id]").forEach((sec) => {
+      const id = sec.id;
+      const header = sec.querySelector(".section-header");
+      if (header) {
+        entries.push({ el: header, find: () => $(`#${id} .section-header`) });
+      }
+      entries.push({ el: sec, find: () => $(`#${id}`) });
+    });
+    const footerEl = $("footer");
+    if (footerEl) entries.push({ el: footerEl, find: () => $("footer") });
+
+    return entries;
+  }
+
   function captureScrollAnchor() {
-    if (window.scrollY < 40) {
-      return { el: null, top: 0, scrollY: window.scrollY };
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    if (window.scrollY < 24) {
+      return { atTop: true, scrollY: window.scrollY };
     }
-    const candidates = $$("section[id], footer");
-    let best = candidates[0];
-    let bestDist = Infinity;
-    for (const el of candidates) {
-      const rect = el.getBoundingClientRect();
-      // Prefer the section covering the top third of the viewport
-      const dist = Math.abs(rect.top - 100);
-      if (rect.top <= 140 && rect.bottom > 100) {
-        best = el;
-        break;
-      }
-      if (dist < bestDist) {
-        bestDist = dist;
-        best = el;
+    if (maxScroll > 0 && window.scrollY >= maxScroll - 16) {
+      return { atBottom: true, scrollY: window.scrollY };
+    }
+
+    const focusY = Math.min(Math.max(window.innerHeight * 0.32, 110), 260);
+    const entries = collectScrollAnchorEntries();
+    let bestEntry = null;
+    let bestScore = Infinity;
+
+    for (const entry of entries) {
+      const rect = entry.el.getBoundingClientRect();
+      if (rect.height <= 0 || rect.width <= 0) continue;
+      const isCoveringFocus = rect.top <= focusY && rect.bottom >= focusY;
+      // Prefer the smallest (most specific) element covering the reading line; otherwise closest edge to focusY
+      const score = isCoveringFocus
+        ? rect.height * 0.01 + Math.abs(rect.top - focusY) * 0.05
+        : 10000 + Math.min(Math.abs(rect.top - focusY), Math.abs(rect.bottom - focusY));
+      if (score < bestScore) {
+        bestScore = score;
+        bestEntry = entry;
       }
     }
+
+    if (!bestEntry) {
+      return { atTop: false, scrollY: window.scrollY, docRatio: maxScroll > 0 ? window.scrollY / maxScroll : 0 };
+    }
+
+    const rect = bestEntry.el.getBoundingClientRect();
+    const useRatio = rect.height > window.innerHeight * 0.55;
     return {
-      el: best,
-      top: best ? best.getBoundingClientRect().top : 0,
+      find: bestEntry.find,
+      top: rect.top,
+      focusY,
+      ratio: rect.height > 0 ? (focusY - rect.top) / rect.height : 0,
+      useRatio,
       scrollY: window.scrollY
     };
   }
 
+  function applyInstantScroll(targetY) {
+    const html = document.documentElement;
+    const prevBehavior = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    window.scrollTo(0, Math.max(0, Math.round(targetY)));
+    requestAnimationFrame(() => {
+      html.style.scrollBehavior = prevBehavior;
+    });
+  }
+
   function restoreScrollAnchor(anchor) {
     if (!anchor) return;
-    if (!anchor.el) {
-      window.scrollTo(0, anchor.scrollY);
+    if (anchor.atTop) {
+      applyInstantScroll(anchor.scrollY);
       return;
     }
-    const newTop = anchor.el.getBoundingClientRect().top;
-    const delta = newTop - anchor.top;
-    if (Math.abs(delta) > 1) {
-      window.scrollBy(0, delta);
+    if (anchor.atBottom) {
+      const newMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      applyInstantScroll(newMax);
+      return;
+    }
+    if (anchor.find) {
+      const targetEl = anchor.find();
+      if (targetEl) {
+        const newRect = targetEl.getBoundingClientRect();
+        let delta;
+        if (anchor.useRatio && newRect.height > 0) {
+          const desiredTop = anchor.focusY - anchor.ratio * newRect.height;
+          delta = newRect.top - desiredTop;
+        } else {
+          delta = newRect.top - anchor.top;
+        }
+        if (Math.abs(delta) > 0.5) {
+          applyInstantScroll(window.scrollY + delta);
+        }
+        return;
+      }
+    }
+    if (typeof anchor.docRatio === "number") {
+      const newMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      applyInstantScroll(anchor.docRatio * newMax);
     }
   }
 
   // Apply Language & Render Everything (saved to sessionStorage: persists on refresh, resets to English on close & reopen)
   function applyLang(lang, preserveScroll = false) {
     const anchor = preserveScroll ? captureScrollAnchor() : null;
+    const modalScrollEl = state.seriesModalId ? $("#media-modal .modal-scroll") : null;
+    const savedModalScroll = modalScrollEl ? modalScrollEl.scrollTop : 0;
 
     state.lang = lang;
     safeSessionSet("saden-lang", lang);
@@ -305,7 +404,7 @@
     renderMetrics(t);
     renderValues(t);
     renderServiceTabs(t);
-    renderServices(t);
+    renderServices(t, preserveScroll);
     renderDualCoreBullets(t);
     renderPersonaTabs(t);
     renderPersonaPanel(t);
@@ -314,14 +413,28 @@
     renderFormOptions(t);
     updateThemeButton();
     bindGlassSpotlights();
+
+    // When switching language live, keep already-reached cards & sections immediately visible without re-bouncing
+    if (preserveScroll) {
+      $$("#services-grid .rise-card").forEach((el) => el.classList.add("is-risen"));
+    }
     observeRiseCards();
 
-    // Re-sync open modal copy if one is currently open
-    if (state.seriesModalId) populateSeriesModal(state.seriesModalId);
+    // Re-sync open modal copy if one is currently open (preserving its internal scroll offset)
+    if (state.seriesModalId) {
+      populateSeriesModal(state.seriesModalId);
+      if (modalScrollEl) modalScrollEl.scrollTop = savedModalScroll;
+    }
     if (state.topicModalState) populateTopicModal(state.topicModalState.seriesId, state.topicModalState.topicId);
 
     if (preserveScroll && anchor) {
-      requestAnimationFrame(() => restoreScrollAnchor(anchor));
+      // Snap synchronously before paint (zero flicker) + micro-correct after paint if webfonts reflow
+      restoreScrollAnchor(anchor);
+      revealVisibleElementsFallback();
+      requestAnimationFrame(() => {
+        restoreScrollAnchor(anchor);
+        revealVisibleElementsFallback();
+      });
     }
   }
 
