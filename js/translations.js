@@ -662,7 +662,7 @@ window.SADEN_I18N = {
       linksTitle: "روابط سريعة",
       resourcesTitle: "التواصل المباشر",
       requestService: "اطلب خدمة",
-      copyRight: "© 2026 سادن للاستشارات الهندسية وتكنولوجيا البناء. جميع الحقوق محفوظة.",
+      copyRight: "© 2026 سادن. جميع الحقوق محفوظة.",
       designedBy: "تم التصميم بواسطة"
     }
   },
@@ -1328,7 +1328,7 @@ window.SADEN_I18N = {
       linksTitle: "Navigation",
       resourcesTitle: "Direct Contact",
       requestService: "Request Service",
-      copyRight: "© 2026 SADEN Engineering Consulting & Construction Technology. All rights reserved.",
+      copyRight: "© 2026 SADEN. All rights reserved.",
       designedBy: "Designed by"
     }
   }
