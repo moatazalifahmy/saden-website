@@ -655,13 +655,15 @@
     }
 
     $$(".anatomy-item").forEach((btn) => {
-      btn.classList.toggle("is-active", btn.getAttribute("data-layer-btn") === layerId);
+      const isActive = btn.getAttribute("data-layer-btn") === layerId;
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-expanded", String(isActive));
     });
 
     if (capTitle && capSub) {
       if (!layerId) {
         capTitle.innerHTML = formatBrandWordmark(
-          state.lang === "ar" ? "شعار سادن الكامل — البوابة الصرحية" : "Complete SADEN Pylon Emblem"
+          state.lang === "ar" ? "شعار سادن الكامل" : "Complete SADEN Emblem"
         );
         capSub.textContent = state.lang === "ar" ? "اضغط على أي رمز لاستعراض هندسته ومعناه" : "Click any layer to isolate & illuminate its geometry";
       } else {
@@ -677,16 +679,23 @@
   function renderAnatomyList(t) {
     const wrap = $("#anatomy-list");
     if (!wrap) return;
-    wrap.innerHTML = t.identity.layers.map((layer, idx) => `
-      <button type="button" class="lg-card lg-card--interactive anatomy-item ${state.activeLayer === layer.id ? "is-active" : ""}" data-layer-btn="${layer.id}">
+    wrap.innerHTML = t.identity.layers.map((layer, idx) => {
+      const isActive = state.activeLayer === layer.id;
+      return `
+      <button type="button" class="lg-card lg-card--interactive anatomy-item ${isActive ? "is-active" : ""}" data-layer-btn="${layer.id}" aria-expanded="${isActive}">
         <span class="anatomy-item__num">0${idx + 1}</span>
-        <div>
+        <div class="anatomy-item__content">
           <div class="anatomy-item__pillar">${formatBrandWordmark(layer.pillar)}</div>
           <div class="anatomy-item__title">${formatBrandWordmark(layer.name)}</div>
-          <div class="anatomy-item__desc">${formatBrandWordmark(layer.desc)}</div>
+          <div class="anatomy-item__desc-wrap">
+            <div class="anatomy-item__desc">
+              <div class="anatomy-item__desc-inner">${formatBrandWordmark(layer.desc)}</div>
+            </div>
+          </div>
         </div>
       </button>
-    `).join("");
+    `;
+    }).join("");
 
     $$("[data-layer-btn]", wrap).forEach((btn) => {
       const id = btn.getAttribute("data-layer-btn");

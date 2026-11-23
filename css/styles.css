@@ -2362,11 +2362,16 @@ html.js-ready .rise-card.is-risen {
   flex-shrink: 0;
 }
 
+.anatomy-item__content {
+  min-width: 0;
+  flex: 1;
+}
+
 .anatomy-item__title {
   font-size: 0.98rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 0;
 }
 
 .anatomy-item__pillar {
@@ -2376,10 +2381,30 @@ html.js-ready .rise-card.is-risen {
   margin-bottom: 3px;
 }
 
+.anatomy-item__desc-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 340ms var(--ease-liquid),
+    opacity 280ms ease;
+}
+
+.anatomy-item.is-active .anatomy-item__desc-wrap {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
 .anatomy-item__desc {
+  overflow: hidden;
+  min-height: 0;
   font-size: 0.86rem;
   color: var(--text-muted);
   line-height: 1.7;
+}
+
+.anatomy-item__desc-inner {
+  padding-top: 8px;
 }
 
 /* ===========================
