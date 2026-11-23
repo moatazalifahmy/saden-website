@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="supported-color-schemes" content="dark light" />
   <title>SADEN — Ancient Roots, Future Engineering | Engineering Consulting & Construction Technology</title>
   <meta name="description" content="SADEN is a high-tier architectural & engineering consultancy and knowledge platform uniting ancient architectural heritage with advanced BIM and digital engineering." />
   <link rel="icon" type="image/svg+xml" href="assets/saden-symbol.svg" />
@@ -20,15 +22,16 @@
           document.documentElement.setAttribute("data-theme", saved);
           return;
         }
-        var isMob = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || "") ||
-          (window.matchMedia && (window.matchMedia("(max-width: 768px)").matches || window.matchMedia("(pointer: coarse) and (max-width: 900px)").matches));
-        if (isMob && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+        var ua = navigator.userAgent || "";
+        var isPhone = (/iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) || (/Android/i.test(ua) && /Mobile/i.test(ua))) ||
+          (window.matchMedia && window.matchMedia("(max-width: 680px)").matches);
+        if (isPhone && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
           document.documentElement.setAttribute("data-theme", "light");
         }
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="css/styles.css?v=20261123r" />
+  <link rel="stylesheet" href="css/styles.css?v=20261123s" />
 </head>
 <body>
   <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
@@ -703,8 +706,8 @@
   </div>
 
   <!-- Scripts (Zero-build vanilla ES6, works both over file:// and HTTP) -->
-  <script src="js/logo-paths.js?v=20261123r"></script>
-  <script src="js/translations.js?v=20261123r"></script>
-  <script src="js/app.js?v=20261123r"></script>
+  <script src="js/logo-paths.js?v=20261123s"></script>
+  <script src="js/translations.js?v=20261123s"></script>
+  <script src="js/app.js?v=20261123s"></script>
 </body>
 </html>

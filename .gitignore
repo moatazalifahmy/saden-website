@@ -7,6 +7,7 @@
 
 # Local build/export bundle (root already contains clean static site files)
 dist/
+assets/exports/
 
 # Unused draft/legacy assets
 assets/images/forensic-engineering.jpg

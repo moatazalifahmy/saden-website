@@ -86,12 +86,13 @@
     } catch (e) {}
   }
 
+  // Smartphones only (tablets > 680px follow laptop behavior identically)
   function isMobileDevice() {
     try {
-      const mobileUa = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || "");
-      const narrowViewport = window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
-      const coarseSmall = window.matchMedia && window.matchMedia("(pointer: coarse) and (max-width: 900px)").matches;
-      return Boolean(mobileUa || narrowViewport || coarseSmall);
+      const ua = navigator.userAgent || "";
+      const phoneUa = /iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) || (/Android/i.test(ua) && /Mobile/i.test(ua));
+      const phoneViewport = window.matchMedia && window.matchMedia("(max-width: 680px)").matches;
+      return Boolean(phoneUa || phoneViewport);
     } catch (e) {
       return false;
     }
