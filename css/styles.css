@@ -3427,11 +3427,18 @@ body.modal-open {
     inset 0 1px 0 rgba(255, 255, 255, 0.45);
   cursor: pointer;
   transition:
+    opacity 240ms var(--ease-liquid),
     transform var(--t-fast) var(--ease-spring),
     color var(--t-fast) ease,
     background var(--t-fast) ease,
     border-color var(--t-fast) ease,
     box-shadow var(--t-med) var(--ease-liquid);
+}
+
+.modal-dialog > .modal-close-x.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.82);
 }
 
 html[dir="ltr"] .modal-dialog > .modal-close-x {
@@ -3542,6 +3549,85 @@ html[dir="rtl"] .modal-dialog > .modal-close-x {
 #detail-modal-close,
 #modal-close {
   margin-inline-start: auto;
+}
+
+/* Series modal bottom bar: Centered Back-to-Top icon aligned with bottom Close button */
+.modal-actions--series {
+  position: relative;
+  min-height: 44px;
+}
+
+.modal-scroll-top-btn {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 7px);
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  background: var(--lg-bg);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid var(--lg-border);
+  box-shadow: inset 0 1px 0 var(--lg-specular-top);
+  cursor: pointer;
+  transition:
+    opacity 240ms var(--ease-liquid),
+    transform var(--t-fast) var(--ease-spring),
+    color var(--t-fast) ease,
+    background var(--t-fast) ease,
+    border-color var(--t-fast) ease,
+    box-shadow var(--t-med) var(--ease-liquid);
+}
+
+.modal-scroll-top-btn.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.82);
+}
+
+.modal-scroll-top-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  transition: transform var(--t-fast) var(--ease-spring), filter var(--t-fast) ease;
+}
+
+.modal-scroll-top-btn:hover {
+  transform: translate(-50%, calc(-50% - 3px)) scale(1.12);
+  color: #e6c27a;
+  background: rgba(197, 153, 75, 0.22);
+  border-color: rgba(212, 169, 92, 0.78);
+  box-shadow:
+    0 0 22px rgba(197, 153, 75, 0.52),
+    0 10px 22px -8px rgba(197, 153, 75, 0.45),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.62),
+    inset 0 0 12px rgba(197, 153, 75, 0.30);
+}
+
+.modal-scroll-top-btn:hover svg {
+  transform: translateY(-1px) scale(1.06);
+  filter: drop-shadow(0 0 6px rgba(197, 153, 75, 0.65));
+}
+
+[data-theme="light"] .modal-scroll-top-btn:hover {
+  color: #9e7429;
+  background: rgba(197, 153, 75, 0.20);
+  border-color: rgba(197, 153, 75, 0.76);
+  box-shadow:
+    0 0 20px rgba(197, 153, 75, 0.44),
+    0 10px 22px -8px rgba(197, 153, 75, 0.36),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.96),
+    inset 0 0 10px rgba(197, 153, 75, 0.22);
 }
 
 /* ===========================
@@ -3937,6 +4023,15 @@ html.js-ready .reveal.in-view {
     width: 100%;
     min-height: 44px;
     margin-inline-start: 0;
+  }
+  .modal-actions--series {
+    flex-direction: row;
+    align-items: center;
+  }
+  .modal-actions--series .lg-btn {
+    width: auto;
+    min-height: 38px;
+    margin-inline-start: auto;
   }
 
   /* Intro Logo Overlay Mobile Proportions */

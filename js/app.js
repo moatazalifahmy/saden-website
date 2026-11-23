@@ -766,6 +766,12 @@
       closeX.setAttribute("aria-label", t.media.close);
       closeX.setAttribute("title", t.media.close);
     }
+    const scrollTopBtn = $("#modal-scroll-top");
+    if (scrollTopBtn) {
+      const topLabel = state.lang === "ar" ? "العودة لأعلى النافذة" : "Back to top";
+      scrollTopBtn.setAttribute("aria-label", topLabel);
+      scrollTopBtn.setAttribute("title", topLabel);
+    }
 
     const listEl = $("#modal-topics-list");
     listEl.innerHTML = (series.topics || []).map((tp, idx) => {
@@ -832,6 +838,28 @@
     });
   }
 
+  // Sync Series Modal floating top X (hide when bottom Close is visible) & centered Back-to-Top icon
+  function updateSeriesModalControls() {
+    const modal = $("#media-modal");
+    const scrollEl = modal ? modal.querySelector(".modal-scroll") : null;
+    const closeX = $("#modal-close-x");
+    const bottomClose = $("#modal-close");
+    const scrollTopBtn = $("#modal-scroll-top");
+    if (!modal || !scrollEl || !modal.classList.contains("open")) return;
+
+    const scrollRect = scrollEl.getBoundingClientRect();
+    if (closeX && bottomClose) {
+      const closeRect = bottomClose.getBoundingClientRect();
+      const isBottomCloseVisible = closeRect.top < scrollRect.bottom - 6 && closeRect.bottom > scrollRect.top;
+      closeX.classList.toggle("is-hidden", isBottomCloseVisible);
+    }
+    if (scrollTopBtn) {
+      const hasOverflow = scrollEl.scrollHeight > scrollEl.clientHeight + 24;
+      const isNearBottom = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 90;
+      scrollTopBtn.classList.toggle("is-hidden", !(hasOverflow && isNearBottom));
+    }
+  }
+
   function openSeriesModal(seriesId) {
     if (!populateSeriesModal(seriesId)) return;
     state.seriesModalId = seriesId;
@@ -839,6 +867,8 @@
     modal.classList.add("open");
     resetModalScroll(modal);
     lockPageScroll();
+    requestAnimationFrame(() => updateSeriesModalControls());
+    setTimeout(updateSeriesModalControls, 140);
   }
 
   function closeSeriesModal(keepLock = false) {
@@ -1693,6 +1723,21 @@
     if (modalCloseBtn) modalCloseBtn.addEventListener("click", () => closeSeriesModal());
     const modalCloseX = $("#modal-close-x");
     if (modalCloseX) modalCloseX.addEventListener("click", () => closeSeriesModal());
+    const modalScrollEl = mediaModal ? mediaModal.querySelector(".modal-scroll") : null;
+    if (modalScrollEl) {
+      modalScrollEl.addEventListener("scroll", updateSeriesModalControls, { passive: true });
+      window.addEventListener("resize", updateSeriesModalControls, { passive: true });
+    }
+    const modalScrollTopBtn = $("#modal-scroll-top");
+    if (modalScrollTopBtn && modalScrollEl) {
+      modalScrollTopBtn.addEventListener("click", () => {
+        try {
+          modalScrollEl.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+          modalScrollEl.scrollTop = 0;
+        }
+      });
+    }
 
     // Prevent wheel/touch scrolling on darkened modal backdrops from ever moving the background page
     $$(".modal-backdrop").forEach((backdrop) => {
