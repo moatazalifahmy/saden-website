@@ -1941,6 +1941,23 @@ html.js-ready .rise-card.is-risen {
 /* ===========================
    02 · SERVICES
    =========================== */
+.lg-scroll-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  border-radius: var(--radius-pill);
+  margin-bottom: 28px;
+}
+
+.lg-scroll-wrap--flush {
+  margin-bottom: 0;
+}
+
+.lg-scroll-wrap .lg-segmented {
+  margin-bottom: 0;
+}
+
 .lg-segmented {
   display: inline-flex;
   flex-wrap: wrap;
@@ -1954,6 +1971,107 @@ html.js-ready .rise-card.is-risen {
   border: 1px solid var(--lg-border);
   box-shadow: var(--lg-shadow);
   margin-bottom: 28px;
+}
+
+/* Horizontal Scroll Edge Indicators (auto-show only when hidden items exist in that direction) */
+.lg-scroll-hint {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  z-index: 6;
+  width: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 6px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms var(--ease-liquid);
+}
+
+.lg-scroll-hint--left {
+  left: 2px;
+  justify-content: flex-start;
+  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+  background: linear-gradient(90deg, rgba(20, 20, 19, 0.94) 46%, rgba(20, 20, 19, 0) 100%);
+}
+
+.lg-scroll-hint--right {
+  right: 2px;
+  justify-content: flex-end;
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  background: linear-gradient(270deg, rgba(20, 20, 19, 0.94) 46%, rgba(20, 20, 19, 0) 100%);
+}
+
+[data-theme="light"] .lg-scroll-hint--left {
+  background: linear-gradient(90deg, rgba(248, 247, 243, 0.95) 46%, rgba(248, 247, 243, 0) 100%);
+}
+
+[data-theme="light"] .lg-scroll-hint--right {
+  background: linear-gradient(270deg, rgba(248, 247, 243, 0.95) 46%, rgba(248, 247, 243, 0) 100%);
+}
+
+.lg-scroll-wrap.can-scroll-left .lg-scroll-hint--left,
+.lg-scroll-wrap.can-scroll-right .lg-scroll-hint--right {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lg-scroll-hint__badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #e6c27a;
+  background: rgba(197, 153, 75, 0.20);
+  border: 1px solid rgba(212, 169, 92, 0.65);
+  box-shadow:
+    0 0 12px rgba(197, 153, 75, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  transition: transform var(--t-fast) var(--ease-spring), background var(--t-fast) ease;
+}
+
+[data-theme="light"] .lg-scroll-hint__badge {
+  color: #9e7429;
+  background: rgba(197, 153, 75, 0.18);
+  border-color: rgba(197, 153, 75, 0.62);
+  box-shadow:
+    0 0 10px rgba(197, 153, 75, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.lg-scroll-hint:active .lg-scroll-hint__badge {
+  transform: scale(0.92);
+}
+
+.lg-scroll-hint__badge svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.lg-scroll-wrap.can-scroll-right .lg-scroll-hint--right .lg-scroll-hint__badge svg {
+  animation: hintNudgeRight 1.6s ease-in-out infinite;
+}
+
+.lg-scroll-wrap.can-scroll-left .lg-scroll-hint--left .lg-scroll-hint__badge svg {
+  animation: hintNudgeLeft 1.6s ease-in-out infinite;
+}
+
+@keyframes hintNudgeRight {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(2px); }
+}
+
+@keyframes hintNudgeLeft {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-2px); }
 }
 
 .lg-seg-btn {
@@ -4016,8 +4134,17 @@ html.js-ready .reveal.in-view {
   }
 
   /* Native Swipeable Liquid Glass Segmented Tabs on Mobile */
+  .lg-scroll-wrap {
+    display: flex;
+    width: 100%;
+    margin-bottom: 22px;
+  }
+  .lg-scroll-wrap--flush {
+    margin-bottom: 0;
+  }
   .lg-segmented {
     display: flex;
+    width: 100%;
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;

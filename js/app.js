@@ -501,6 +501,60 @@
     });
   }
 
+  // Horizontal Scroll Edge Indicators for all .lg-segmented pill bars (works accurately in both LTR & RTL)
+  function updateSegmentedScrollHint(wrap) {
+    if (!wrap) return;
+    const scroller = wrap.querySelector(".lg-segmented");
+    if (!scroller) return;
+    const items = Array.from(scroller.children);
+    if (!items.length || scroller.scrollWidth <= scroller.clientWidth + 4) {
+      wrap.classList.remove("can-scroll-left", "can-scroll-right");
+      return;
+    }
+    const wrapRect = scroller.getBoundingClientRect();
+    let minLeft = Infinity;
+    let maxRight = -Infinity;
+    items.forEach((child) => {
+      const r = child.getBoundingClientRect();
+      if (r.left < minLeft) minLeft = r.left;
+      if (r.right > maxRight) maxRight = r.right;
+    });
+    wrap.classList.toggle("can-scroll-left", minLeft < wrapRect.left - 4);
+    wrap.classList.toggle("can-scroll-right", maxRight > wrapRect.right + 4);
+  }
+
+  function updateAllSegmentedScrollHints() {
+    $$("[data-scroll-wrap]").forEach(updateSegmentedScrollHint);
+  }
+
+  function initSegmentedScrollHints() {
+    $$("[data-scroll-wrap]").forEach((wrap) => {
+      const scroller = wrap.querySelector(".lg-segmented");
+      if (!scroller || wrap.dataset.scrollBound) return;
+      wrap.dataset.scrollBound = "1";
+
+      scroller.addEventListener("scroll", () => updateSegmentedScrollHint(wrap), { passive: true });
+
+      $$("[data-scroll-dir]", wrap).forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const dir = btn.getAttribute("data-scroll-dir") === "left" ? -1 : 1;
+          const step = Math.max(130, Math.round(scroller.clientWidth * 0.55));
+          try {
+            scroller.scrollBy({ left: dir * step, behavior: "smooth" });
+          } catch (err) {
+            scroller.scrollLeft += dir * step;
+          }
+          setTimeout(() => updateSegmentedScrollHint(wrap), 280);
+        });
+      });
+    });
+
+    window.addEventListener("resize", updateAllSegmentedScrollHints, { passive: true });
+    window.addEventListener("orientationchange", () => setTimeout(updateAllSegmentedScrollHints, 120), { passive: true });
+    requestAnimationFrame(updateAllSegmentedScrollHints);
+    setTimeout(updateAllSegmentedScrollHints, 220);
+  }
+
   function renderServiceTabs(t) {
     const wrap = $("#service-tabs");
     if (!wrap) return;
@@ -516,8 +570,14 @@
         renderServices(window.SADEN_I18N[state.lang], true);
         bindGlassSpotlights();
         observeRiseCards();
+        const activeBtn = wrap.querySelector(".lg-seg-btn.active");
+        if (activeBtn && typeof activeBtn.scrollIntoView === "function") {
+          try { activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" }); } catch (e) {}
+        }
+        setTimeout(() => updateSegmentedScrollHint(wrap.closest("[data-scroll-wrap]")), 260);
       });
     });
+    requestAnimationFrame(() => updateSegmentedScrollHint(wrap.closest("[data-scroll-wrap]")));
   }
 
   function renderServices(t, immediateRise = false) {
@@ -627,8 +687,14 @@
         state.personaId = btn.getAttribute("data-persona");
         renderPersonaTabs(window.SADEN_I18N[state.lang]);
         renderPersonaPanel(window.SADEN_I18N[state.lang]);
+        const activeBtn = wrap.querySelector(".lg-seg-btn.active");
+        if (activeBtn && typeof activeBtn.scrollIntoView === "function") {
+          try { activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" }); } catch (e) {}
+        }
+        setTimeout(() => updateSegmentedScrollHint(wrap.closest("[data-scroll-wrap]")), 260);
       });
     });
+    requestAnimationFrame(() => updateSegmentedScrollHint(wrap.closest("[data-scroll-wrap]")));
   }
 
   function renderPersonaPanel(t) {
@@ -1869,7 +1935,8 @@
       }
     });
 
-    // Contact form select placeholder styling & phone dial code selector
+    // Contact form select placeholder styling, segmented scroll hints & phone dial code selector
+    initSegmentedScrollHints();
     initPhoneDialSelector();
     const scaleSelect = $("#input-scale");
     const serviceSelect = $("#input-service");

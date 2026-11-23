@@ -28,7 +28,7 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="css/styles.css?v=20261123q" />
+  <link rel="stylesheet" href="css/styles.css?v=20261123r" />
 </head>
 <body>
   <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
@@ -259,7 +259,15 @@
             <p class="section-subtitle" data-i18n="services.subtitle"></p>
           </div>
 
-          <div id="service-tabs" class="lg-segmented" role="tablist" aria-label="Service Categories"></div>
+          <div class="lg-scroll-wrap" data-scroll-wrap>
+            <button type="button" class="lg-scroll-hint lg-scroll-hint--left" data-scroll-dir="left" aria-label="Scroll left">
+              <span class="lg-scroll-hint__badge"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></span>
+            </button>
+            <div id="service-tabs" class="lg-segmented" role="tablist" aria-label="Service Categories"></div>
+            <button type="button" class="lg-scroll-hint lg-scroll-hint--right" data-scroll-dir="right" aria-label="Scroll right">
+              <span class="lg-scroll-hint__badge"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </button>
+          </div>
           <div id="services-grid" class="services-grid"></div>
         </div>
       </div>
@@ -322,7 +330,15 @@
                 <h3 class="bento-card-title" style="font-size: clamp(1.3rem, 2vw, 1.75rem); margin-bottom: 8px;" data-i18n="model.audiencesTitle"></h3>
                 <p class="bento-card-text" style="max-width: 640px;" data-i18n="model.audiencesSubtitle"></p>
               </div>
-              <div id="persona-tabs" class="lg-segmented" style="margin-bottom: 0;"></div>
+              <div class="lg-scroll-wrap lg-scroll-wrap--flush" data-scroll-wrap>
+                <button type="button" class="lg-scroll-hint lg-scroll-hint--left" data-scroll-dir="left" aria-label="Scroll left">
+                  <span class="lg-scroll-hint__badge"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></span>
+                </button>
+                <div id="persona-tabs" class="lg-segmented" style="margin-bottom: 0;"></div>
+                <button type="button" class="lg-scroll-hint lg-scroll-hint--right" data-scroll-dir="right" aria-label="Scroll right">
+                  <span class="lg-scroll-hint__badge"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></span>
+                </button>
+              </div>
             </div>
             <div id="persona-panel" class="audience-panel"></div>
           </div>
@@ -687,8 +703,8 @@
   </div>
 
   <!-- Scripts (Zero-build vanilla ES6, works both over file:// and HTTP) -->
-  <script src="js/logo-paths.js?v=20261123q"></script>
-  <script src="js/translations.js?v=20261123q"></script>
-  <script src="js/app.js?v=20261123q"></script>
+  <script src="js/logo-paths.js?v=20261123r"></script>
+  <script src="js/translations.js?v=20261123r"></script>
+  <script src="js/app.js?v=20261123r"></script>
 </body>
 </html>
