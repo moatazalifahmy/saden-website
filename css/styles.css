@@ -3437,6 +3437,12 @@ textarea.lg-input {
   border-top: 1px solid var(--divider);
 }
 
+/* Keep Close button on the inline-end side: Left in Arabic (RTL), Right in English (LTR) */
+#detail-modal-close,
+#modal-close {
+  margin-inline-start: auto;
+}
+
 /* ===========================
    SCROLL REVEAL ANIMATIONS
    =========================== */
@@ -3829,6 +3835,7 @@ html.js-ready .reveal.in-view {
   .modal-actions .lg-btn {
     width: 100%;
     min-height: 44px;
+    margin-inline-start: 0;
   }
 
   /* Intro Logo Overlay Mobile Proportions */
