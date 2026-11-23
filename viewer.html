@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SADEN — Technical Brief PDF Viewer</title>
+  <link rel="icon" type="image/svg+xml" href="assets/saden-symbol.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #C5994B;
+      --brass: #C4B594;
+      --white: #F4F3EF;
+      --black: #141414;
+      --font: 'Alexandria', sans-serif;
+    }
+    [data-theme="dark"] {
+      --bg: #0E0E0D;
+      --sheet-bg: rgba(22, 22, 20, 0.88);
+      --text: #F4F3EF;
+      --muted: #C2C0B8;
+      --accent: #DFB76A;
+      --border: rgba(197, 153, 75, 0.32);
+      --lg-btn-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(244, 243, 239, 0.02) 52%, rgba(10, 10, 9, 0.22) 100%);
+      --lg-btn-hover-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(244, 243, 239, 0.04) 50%, rgba(197, 153, 75, 0.12) 100%);
+      --lg-btn-border: rgba(244, 243, 239, 0.16);
+      --lg-btn-spec-top: rgba(255, 255, 255, 0.38);
+      --lg-btn-spec-bot: rgba(197, 153, 75, 0.30);
+    }
+    [data-theme="light"] {
+      --bg: #F4F3EF;
+      --sheet-bg: #FFFFFF;
+      --text: #141414;
+      --muted: #4A4A45;
+      --accent: #8A641E;
+      --border: rgba(20, 20, 20, 0.14);
+      --lg-btn-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.56) 0%, rgba(244, 243, 239, 0.32) 55%, rgba(232, 227, 214, 0.36) 100%);
+      --lg-btn-hover-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.78) 0%, rgba(244, 243, 239, 0.52) 50%, rgba(197, 153, 75, 0.16) 100%);
+      --lg-btn-border: rgba(20, 20, 20, 0.12);
+      --lg-btn-spec-top: rgba(255, 255, 255, 0.96);
+      --lg-btn-spec-bot: rgba(197, 153, 75, 0.34);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 28px 18px 60px;
+      line-height: 1.75;
+    }
+    .topbar {
+      max-width: 860px;
+      margin: 0 auto 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      direction: ltr;
+    }
+    .brand img.sym { height: 42px; width: auto; }
+    .brand img.wm-ar { height: 18px; width: auto; }
+    .brand img.wm-en { height: 12px; width: auto; }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      position: relative;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 11px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      overflow: hidden;
+      white-space: nowrap;
+      transition:
+        transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        background 220ms ease,
+        border-color 220ms ease;
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 52%);
+      pointer-events: none;
+    }
+    .btn--gold {
+      background: var(--gold);
+      color: #141414;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow:
+        0 14px 30px -10px rgba(197, 153, 75, 0.55),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.58),
+        inset 0 -2px 4px rgba(102, 72, 22, 0.24);
+    }
+    .btn--gold:hover {
+      transform: translateY(-2px);
+      background: #d0a456;
+      box-shadow:
+        0 18px 38px -10px rgba(197, 153, 75, 0.72),
+        0 0 22px rgba(197, 153, 75, 0.32),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.72);
+    }
+    .btn--ghost {
+      background: var(--lg-btn-bg);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      color: var(--text);
+      border: 1px solid var(--lg-btn-border);
+      box-shadow:
+        0 10px 24px -12px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 var(--lg-btn-spec-top),
+        inset 0 -1px 0 var(--lg-btn-spec-bot);
+    }
+    .btn--ghost:hover {
+      transform: translateY(-2px);
+      background: var(--lg-btn-hover-bg);
+      border-color: rgba(197, 153, 75, 0.58);
+      box-shadow:
+        0 0 0 1px rgba(197, 153, 75, 0.35),
+        0 0 22px rgba(197, 153, 75, 0.24),
+        0 14px 28px -12px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 var(--lg-btn-spec-top);
+    }
+    .pdf-sheet {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--sheet-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: clamp(26px, 5vw, 56px);
+      box-shadow: 0 24px 60px -24px rgba(0,0,0,0.45);
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .doc-title {
+      font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+    .doc-hero {
+      width: 100%;
+      aspect-ratio: 16 / 7.5;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+    }
+    .doc-lead {
+      font-size: 1.02rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .doc-section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 24px 0 12px;
+    }
+    .doc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .doc-list li {
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      font-size: 0.94rem;
+    }
+    .doc-footer {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    @media print {
+      body { background: #FFFFFF !important; color: #141414 !important; padding: 0; }
+      .topbar { display: none !important; }
+      .pdf-sheet { box-shadow: none; border: none; background: #FFFFFF !important; padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <img class="sym" src="assets/saden-symbol.svg" alt="SADEN" />
+      <img id="viewer-wm" class="wm-ar" src="assets/saden-wordmark-ar.png" alt="SADEN" />
+    </div>
+    <div class="actions">
+      <button id="print-btn" type="button" class="btn btn--gold"></button>
+      <button id="back-btn" type="button" class="btn btn--ghost"></button>
+    </div>
+  </div>
+
+  <article class="pdf-sheet">
+    <div class="doc-meta">
+      <span id="doc-series"></span>
+      <span id="doc-code" dir="ltr"></span>
+    </div>
+    <h1 id="doc-title" class="doc-title"></h1>
+    <img id="doc-hero" class="doc-hero" src="" alt="" />
+    <p id="doc-desc" class="doc-lead"></p>
+
+    <h2 id="doc-points-heading" class="doc-section-title"></h2>
+    <ul id="doc-points" class="doc-list"></ul>
+
+    <div class="doc-footer">
+      <span id="doc-brand-note"></span>
+      <span dir="ltr">www.sadens.com</span>
+    </div>
+  </article>
+
+  <script src="js/translations.js"></script>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const lang = params.get("lang") === "en" ? "en" : "ar";
+      const theme = params.get("theme") === "light" ? "light" : "dark";
+      const seriesId = params.get("series");
+      const topicId = params.get("topic");
+
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+      document.documentElement.setAttribute("data-theme", theme);
+
+      const wm = document.getElementById("viewer-wm");
+      if (lang === "en") {
+        wm.src = "assets/saden-wordmark.svg";
+        wm.className = "wm-en";
+      }
+
+      const t = window.SADEN_I18N[lang];
+      const series = t.media.pillars.find((p) => p.id === seriesId) || t.media.pillars[0];
+      const topic = (series.topics || []).find((x) => x.id === topicId) || (series.topics || [])[0];
+
+      document.title = `${topic ? topic.title : series.pillar} — SADEN PDF`;
+      document.getElementById("print-btn").textContent = lang === "ar" ? "طباعة / حفظ كملف PDF" : "Print / Save as PDF";
+      const backBtn = document.getElementById("back-btn");
+      backBtn.textContent = lang === "ar" ? "العودة للموقع" : "Back to Website";
+      document.getElementById("print-btn").addEventListener("click", () => window.print());
+      backBtn.addEventListener("click", () => {
+        try {
+          if (window.opener && !window.opener.closed) {
+            window.opener.focus();
+          }
+        } catch (e) {}
+        window.close();
+        // Fallback only if browser prevented closing a manually opened tab
+        setTimeout(() => {
+          if (!window.closed) {
+            window.location.href = "index.html#media";
+          }
+        }, 160);
+      });
+
+      document.getElementById("doc-series").textContent = `${series.num} · ${series.pillar}`;
+      document.getElementById("doc-code").textContent = `SDN-DOC-${(topic ? topic.id : series.id).toUpperCase()}`;
+      document.getElementById("doc-title").textContent = topic ? topic.title : series.pillar;
+      document.getElementById("doc-hero").src = series.image;
+      document.getElementById("doc-hero").alt = topic ? topic.title : series.pillar;
+      document.getElementById("doc-desc").textContent = topic ? topic.details : series.summary;
+      document.getElementById("doc-points-heading").textContent = lang === "ar" ? "النقاط الهندسية والتطبيقية الأساسية" : "Key Engineering & Technical Takeaways";
+      document.getElementById("doc-points").innerHTML = (topic && topic.points ? topic.points : []).map((p) => `<li>${p}</li>`).join("");
+      document.getElementById("doc-brand-note").textContent = lang === "ar"
+        ? "إصدار تقني رسمي من منصة المعرفة الهندسية"
+        : "Official Technical Brief — Engineering Knowledge Hub";
+    })();
+  </script>
+</body>
+</html>

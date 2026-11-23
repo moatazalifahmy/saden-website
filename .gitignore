@@ -1,0 +1,18 @@
+# Local working documents & temporary Office files
+*.pdf
+*.docx
+~$*
+~WRL*.tmp
+*.tmp
+
+# Local build/export bundle (root already contains clean static site files)
+dist/
+
+# Unused draft/legacy assets
+assets/images/forensic-engineering.jpg
+assets/saden-logo-vertical.svg
+
+# OS & editor junk
+.DS_Store
+Thumbs.db
+desktop.ini

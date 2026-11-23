@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>سادن — جذور عريقة، هندسة المستقبل | الاستشارات الهندسية وتكنولوجيا البناء</title>
+  <meta name="description" content="سادن شركة استشارات هندسية وتكنولوجيا بناء تجمع بين عمق التراث المعماري ودقة الهندسة الرقمية وأنظمة BIM والتدقيق الفني للمشاريع." />
+  <link rel="icon" type="image/svg+xml" href="assets/saden-symbol.svg" />
+
+  <!-- Official SADEN Brand Primary Typeface: Alexandria (Supports Arabic & Latin) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Signature Geometric Glowing Logo Intro, Replay & Unified Loading Overlay -->
+  <div id="logo-intro-overlay" class="logo-intro-overlay" aria-hidden="true">
+    <div class="logo-intro-backdrop"></div>
+    <div class="logo-intro-guides">
+      <span class="guide-ring guide-ring--outer"></span>
+      <span class="guide-ring guide-ring--inner"></span>
+      <span class="guide-axis guide-axis--h"></span>
+      <span class="guide-axis guide-axis--v"></span>
+    </div>
+    <div id="logo-intro-stage" class="logo-intro-stage"></div>
+  </div>
+
+  <!-- Ambient Architectural Stage (Refracted through Liquid Glass surfaces) -->
+  <div class="ambient-stage" aria-hidden="true">
+    <div class="ambient-grid"></div>
+    <div id="ambient-pattern" class="ambient-pattern"></div>
+    <div class="ambient-orb ambient-orb--1"></div>
+    <div class="ambient-orb ambient-orb--2"></div>
+    <div class="ambient-orb ambient-orb--3"></div>
+  </div>
+
+  <!-- Floating Liquid Glass Navigation Bar (Fixed element positions in both AR & EN) -->
+  <header class="navbar-wrap">
+    <nav id="navbar" class="navbar" dir="ltr" aria-label="Main Navigation">
+      <div class="nav-brand-cluster">
+        <a href="#top" id="nav-brand-logo" class="nav-brand" aria-label="SADEN Home"></a>
+        <span id="nav-brand-wordmark" class="nav-brand-wordmark" aria-hidden="true"></span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a class="nav-link" href="#about" data-i18n="nav.about">الفلسفة</a></li>
+        <li><a class="nav-link" href="#services" data-i18n="nav.services">الخدمات</a></li>
+        <li><a class="nav-link" href="#model" data-i18n="nav.model">النموذج المزدوج</a></li>
+        <li><a class="nav-link" href="#identity" data-i18n="nav.identity">الهوية البصرية</a></li>
+        <li><a class="nav-link" href="#media" data-i18n="nav.media">منصة المعرفة</a></li>
+        <li><a class="nav-link" href="#contact" data-i18n="nav.contact">تواصل معنا</a></li>
+      </ul>
+
+      <div class="nav-controls">
+        <!-- Liquid Glass Illuminated Language Toggle Switch (EN / ع) -->
+        <button id="lang-toggle" type="button" class="lg-switch lg-switch--lang" role="switch" aria-checked="true" aria-label="Switch Language">
+          <span class="lg-switch__rim" aria-hidden="true"></span>
+          <span class="lg-switch__thumb" aria-hidden="true"></span>
+          <span class="lg-switch__slot lg-switch__slot--left">EN</span>
+          <span class="lg-switch__slot lg-switch__slot--right">ع</span>
+        </button>
+
+        <!-- Liquid Glass Illuminated Theme Toggle Switch (Light / Dark) -->
+        <button id="theme-toggle" type="button" class="lg-switch lg-switch--theme" role="switch" aria-checked="true" aria-label="Toggle Theme">
+          <span class="lg-switch__rim" aria-hidden="true"></span>
+          <span class="lg-switch__thumb" aria-hidden="true"></span>
+          <span class="lg-switch__slot lg-switch__slot--left" aria-hidden="true">
+            <svg class="switch-icon-sun" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/>
+              <path d="M12 2.4v2.3M12 19.3v2.3M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M2.4 12h2.3M19.3 12h2.3M5.2 18.8l1.6-1.6M17.2 6.8l1.6-1.6"/>
+            </svg>
+          </span>
+          <span class="lg-switch__slot lg-switch__slot--right" aria-hidden="true">
+            <svg class="switch-icon-moon" viewBox="0 0 24 24">
+              <path d="M19.2 14.4A7.6 7.6 0 0 1 9.6 4.8a7.8 7.8 0 1 0 9.6 9.6z" fill="currentColor" stroke="none"/>
+              <path d="M16.2 6.6l.55 1.35 1.35.55-1.35.55-.55 1.35-.55-1.35-1.35-.55 1.35-.55z" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+        </button>
+
+        <a href="#contact" class="lg-btn lg-btn--primary lg-btn--sm nav-cta-desktop" data-i18n="nav.cta">اطلب خدمة من خدماتنا</a>
+
+        <button id="menu-toggle" type="button" class="lg-control-btn nav-menu-btn" aria-label="Toggle Menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile & Tablet Liquid Glass Drawer -->
+  <div id="mobile-drawer" class="mobile-drawer" aria-label="Mobile Navigation">
+    <a class="nav-link" href="#about" data-i18n="nav.about">الفلسفة</a>
+    <a class="nav-link" href="#services" data-i18n="nav.services">الخدمات</a>
+    <a class="nav-link" href="#model" data-i18n="nav.model">النموذج المزدوج</a>
+    <a class="nav-link" href="#identity" data-i18n="nav.identity">الهوية البصرية</a>
+    <a class="nav-link" href="#media" data-i18n="nav.media">منصة المعرفة</a>
+    <a class="nav-link" href="#contact" data-i18n="nav.contact">تواصل معنا</a>
+    <a href="#contact" class="lg-btn lg-btn--primary" style="margin-top: 8px;" data-i18n="nav.cta">اطلب خدمة من خدماتنا</a>
+  </div>
+
+  <main id="top">
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="hero-section" class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div id="hero-content" class="hero-content hero-enter-text">
+            <span class="lg-pill">
+              <span class="lg-pill__dot"></span>
+              <span data-i18n="hero.badge">الاستشارات الهندسية وتكنولوجيا البناء</span>
+            </span>
+
+            <h1 class="hero-title">
+              <span data-i18n="hero.taglineTop">جذور عريقة،</span>
+              <span class="hero-title__accent" data-i18n="hero.taglineAccent">هندسة المستقبل</span>
+            </h1>
+
+            <p class="hero-subtitle" data-i18n="hero.subtitle"></p>
+
+            <div class="hero-actions">
+              <a href="#contact" class="lg-btn lg-btn--primary">
+                <span data-i18n="hero.primaryCta">اطلب خدمة من خدماتنا</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+              </a>
+              <a href="#services" class="lg-btn lg-btn--glass" data-i18n="hero.secondaryCta">استكشف خدماتنا</a>
+            </div>
+          </div>
+
+          <div id="hero-visual" class="hero-visual hero-enter-visual">
+            <div class="lg-card hero-frame">
+              <div class="hero-frame__media">
+                <img src="assets/images/hero-architecture.jpg" alt="SADEN Monumental Architecture" />
+                <div class="hero-frame__vignette"></div>
+                <span id="hero-virtual-badge" class="hero-virtual-badge" data-i18n="hero.virtualImage">صورة افتراضية</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Liquid Glass Hero Metrics -->
+        <div id="hero-metrics" class="hero-metrics reveal"></div>
+      </div>
+    </section>
+
+    <!-- ==================== 01 · BRAND PHILOSOPHY ==================== -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-glass-frame reveal">
+
+          <div class="section-header">
+            <div class="section-eyebrow" data-i18n="about.eyebrow">01 · الأساس المؤسسي</div>
+            <h2 class="section-title" data-i18n="about.title"></h2>
+            <p class="section-subtitle" data-i18n="about.lead"></p>
+          </div>
+
+          <div class="bento-foundation">
+            <!-- Story Card -->
+            <article class="lg-card lg-card--interactive bento-story rise-card" data-about-card="story" tabindex="0" role="button">
+              <div class="bento-card-inner">
+                <div class="bento-card-head">
+                  <div class="lg-icon">
+                    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  </div>
+                  <h3 class="bento-card-title" data-i18n="about.storyTitle">قصة سادن</h3>
+                </div>
+                <div class="bento-card-body">
+                  <p class="bento-card-text" data-i18n="about.storyBody1" style="margin-bottom: 12px;"></p>
+                  <p class="bento-card-text" data-i18n="about.storyBody2"></p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Archetype + Promise Card (Unified Icon + Alignment) -->
+            <article class="lg-card lg-card--interactive bento-archetype rise-card" data-about-card="archetype" tabindex="0" role="button">
+              <div class="bento-card-inner">
+                <div class="bento-card-head">
+                  <div class="lg-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v2H4v-2L12 3z"/><path d="M6 9.5v8M10 9.5v8M14 9.5v8M18 9.5v8M4 19.5h16"/></svg>
+                  </div>
+                  <div>
+                    <span class="bento-card-sub-label" data-i18n="about.archetypeLabel">الشخصية المؤسسية</span>
+                    <h3 class="bento-card-title" data-i18n="about.archetypeTitle"></h3>
+                  </div>
+                </div>
+                <div class="bento-card-body">
+                  <p class="bento-card-text" data-i18n="about.archetypeBody"></p>
+                  <div class="promise-box">
+                    <span class="promise-box__label" data-i18n="about.promiseLabel">وعد سادن</span>
+                    <p class="promise-box__quote" data-i18n="about.promiseQuote"></p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Vision Card -->
+            <article class="lg-card lg-card--interactive bento-vision rise-card" data-about-card="vision" tabindex="0" role="button">
+              <div class="bento-card-inner">
+                <div class="bento-card-head">
+                  <div class="lg-icon">
+                    <svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </div>
+                  <h3 class="bento-card-title" data-i18n="about.visionTitle">الرؤية</h3>
+                </div>
+                <div class="bento-card-body">
+                  <p class="bento-card-text" data-i18n="about.visionBody"></p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Mission Card -->
+            <article class="lg-card lg-card--interactive bento-mission rise-card" data-about-card="mission" tabindex="0" role="button">
+              <div class="bento-card-inner">
+                <div class="bento-card-head">
+                  <div class="lg-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+                  </div>
+                  <h3 class="bento-card-title" data-i18n="about.missionTitle">الرسالة</h3>
+                </div>
+                <div class="bento-card-body">
+                  <p class="bento-card-text" data-i18n="about.missionBody"></p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <h3 class="values-heading" data-i18n="about.valuesTitle">القيم الجوهرية</h3>
+          <div id="values-grid" class="values-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 02 · WHAT WE DO (SERVICES) ==================== -->
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section-glass-frame reveal">
+
+          <div class="section-header">
+            <div class="section-eyebrow" data-i18n="services.eyebrow">02 · ما نفعله</div>
+            <h2 class="section-title" data-i18n="services.title"></h2>
+            <p class="section-subtitle" data-i18n="services.subtitle"></p>
+          </div>
+
+          <div id="service-tabs" class="lg-segmented" role="tablist" aria-label="Service Categories"></div>
+          <div id="services-grid" class="services-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 03 · DUAL-CORE MODEL & AUDIENCES ==================== -->
+    <section id="model" class="section">
+      <div class="container">
+        <div class="section-glass-frame reveal">
+
+          <div class="section-header">
+            <div class="section-eyebrow" data-i18n="model.eyebrow">03 · النموذج الاستراتيجي والجمهور</div>
+            <h2 class="section-title" data-i18n="model.title"></h2>
+            <p class="section-subtitle" data-i18n="model.subtitle"></p>
+          </div>
+
+          <div class="dual-core-grid">
+            <!-- Commercial Consultancy Core -->
+            <article class="lg-card lg-card--interactive core-card">
+              <div class="bento-card-head" style="margin-bottom: 0;">
+                <div class="lg-icon">
+                  <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 10h.01M15 10h.01"/></svg>
+                </div>
+                <div>
+                  <span class="core-card__badge" data-i18n="model.commercial.badge"></span>
+                  <h3 class="bento-card-title" data-i18n="model.commercial.title"></h3>
+                </div>
+              </div>
+              <p class="bento-card-text" data-i18n="model.commercial.desc"></p>
+              <ul id="core-commercial-list" class="core-card__list"></ul>
+            </article>
+
+            <!-- Luminous Liquid Glass Bridge -->
+            <div class="dual-core-bridge" aria-hidden="true">
+              <div class="bridge-node">
+                <svg viewBox="0 0 24 24"><path d="M7 17L3 12l4-5M17 7l4 5-4 5M3 12h18"/></svg>
+              </div>
+            </div>
+
+            <!-- Media & Authority Engine -->
+            <article class="lg-card lg-card--interactive core-card">
+              <div class="bento-card-head" style="margin-bottom: 0;">
+                <div class="lg-icon">
+                  <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2.5"/><polygon points="10 8.5 15.5 11 10 13.5 10 8.5"/><path d="M8 21h8M12 18v3"/></svg>
+                </div>
+                <div>
+                  <span class="core-card__badge" data-i18n="model.media.badge"></span>
+                  <h3 class="bento-card-title" data-i18n="model.media.title"></h3>
+                </div>
+              </div>
+              <p class="bento-card-text" data-i18n="model.media.desc"></p>
+              <ul id="core-media-list" class="core-card__list"></ul>
+            </article>
+          </div>
+
+          <!-- Interactive Target Audience Personas -->
+          <div class="lg-card audience-box">
+            <div class="audience-head">
+              <div>
+                <h3 class="bento-card-title" style="font-size: clamp(1.3rem, 2vw, 1.75rem); margin-bottom: 8px;" data-i18n="model.audiencesTitle"></h3>
+                <p class="bento-card-text" style="max-width: 640px;" data-i18n="model.audiencesSubtitle"></p>
+              </div>
+              <div id="persona-tabs" class="lg-segmented" style="margin-bottom: 0;"></div>
+            </div>
+            <div id="persona-panel" class="audience-panel"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 04 · EMBLEM ANATOMY & VISUAL IDENTITY ==================== -->
+    <section id="identity" class="section">
+      <div class="container">
+        <div class="section-glass-frame reveal">
+
+          <div class="section-header">
+            <div class="section-eyebrow" data-i18n="identity.eyebrow">04 · تشريح الشعار والهوية البصرية</div>
+            <h2 class="section-title" data-i18n="identity.title"></h2>
+            <p class="section-subtitle" data-i18n="identity.subtitle"></p>
+          </div>
+
+          <div class="anatomy-grid">
+            <!-- Interactive Vector Vitrine -->
+            <div class="lg-card anatomy-stage">
+              <div id="anatomy-vitrine" class="anatomy-vitrine"></div>
+              <div class="anatomy-caption">
+                <div id="anatomy-caption-title" class="anatomy-caption__title"></div>
+                <div id="anatomy-caption-sub" class="anatomy-caption__sub"></div>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                <button id="anatomy-reset" type="button" class="lg-btn lg-btn--glass lg-btn--sm" data-i18n="identity.resetBtn"></button>
+              </div>
+            </div>
+
+            <!-- 5 Symbolic Layers List -->
+            <div id="anatomy-list" class="anatomy-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 05 · KNOWLEDGE & MEDIA HUB (SERIES) ==================== -->
+    <section id="media" class="section">
+      <div class="container">
+        <div class="section-glass-frame reveal">
+
+          <div class="section-header">
+            <div class="section-eyebrow" data-i18n="media.eyebrow">05 · منصة المعرفة والإنتاج الإعلامي</div>
+            <h2 class="section-title" data-i18n="media.title"></h2>
+            <p class="section-subtitle" data-i18n="media.subtitle"></p>
+          </div>
+
+          <div id="media-grid" class="media-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 06 · CONTACT & AUDIT INTAKE ==================== -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-glass-frame reveal">
+
+          <div class="section-header">
+            <div class="section-eyebrow" data-i18n="contact.eyebrow">06 · ابدأ مشروعك بثقة هندسية</div>
+            <h2 class="section-title" data-i18n="contact.title"></h2>
+            <p class="section-subtitle" data-i18n="contact.subtitle"></p>
+          </div>
+
+          <div class="contact-grid">
+            <!-- Direct Channels -->
+            <aside class="lg-card contact-info">
+              <div>
+                <h3 class="bento-card-title" style="margin-bottom: 18px;" data-i18n="contact.channelsTitle"></h3>
+                <div class="channel-list">
+                  <div class="channel-item">
+                    <div class="lg-icon lg-icon--sm">
+                      <svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                    </div>
+                    <div>
+                      <span class="channel-item__label" data-i18n="contact.locationLabel"></span>
+                      <span class="channel-item__value" data-i18n="contact.locationValue"></span>
+                    </div>
+                  </div>
+
+                  <a href="https://www.sadens.com" target="_blank" rel="noopener" class="channel-item">
+                    <div class="lg-icon lg-icon--sm">
+                      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+                    </div>
+                    <div>
+                      <span class="channel-item__label" data-i18n="contact.webLabel"></span>
+                      <span class="channel-item__value" dir="ltr">www.sadens.com</span>
+                    </div>
+                  </a>
+
+                  <a href="mailto:info@sadens.com" class="channel-item">
+                    <div class="lg-icon lg-icon--sm">
+                      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+                    </div>
+                    <div>
+                      <span class="channel-item__label" data-i18n="contact.emailLabel"></span>
+                      <span class="channel-item__value" dir="ltr">info@sadens.com</span>
+                    </div>
+                  </a>
+
+                  <a href="https://wa.me/201508508123" target="_blank" rel="noopener" class="channel-item">
+                    <div class="lg-icon lg-icon--sm">
+                      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 20.5l1.6-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg>
+                    </div>
+                    <div>
+                      <span class="channel-item__label" data-i18n="contact.whatsappLabel"></span>
+                      <span class="channel-item__value" dir="ltr" data-i18n="contact.whatsappValue">@Sir.SADEN</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="promise-box" style="margin-top: 0;">
+                <span class="promise-box__label" id="contact-promise-brand"></span>
+                <p class="promise-box__quote" data-i18n="about.promiseQuote"></p>
+              </div>
+            </aside>
+
+            <!-- Liquid Glass Intake Form -->
+            <div class="lg-card contact-form-card">
+              <form id="contact-form">
+                <div class="form-grid">
+                  <div class="form-field">
+                    <label for="input-name" data-i18n="contact.form.name"></label>
+                    <input id="input-name" class="lg-input" type="text" required data-i18n-placeholder="contact.form.namePlaceholder" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="input-company" data-i18n="contact.form.company"></label>
+                    <input id="input-company" class="lg-input" type="text" data-i18n-placeholder="contact.form.companyPlaceholder" />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="input-email" data-i18n="contact.form.email"></label>
+                    <input id="input-email" class="lg-input" type="email" required data-i18n-placeholder="contact.form.emailPlaceholder" />
+                  </div>
+
+                  <div class="form-field form-field--phone">
+                    <label for="input-phone" data-i18n="contact.form.phone"></label>
+                    <div class="phone-input-group" dir="ltr">
+                      <button type="button" id="phone-code-btn" class="phone-code-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Country dial code">
+                        <span id="phone-code-iso" class="phone-code-btn__iso">EG</span>
+                        <span id="phone-code-dial" class="phone-code-btn__dial">+20</span>
+                        <svg class="phone-code-btn__caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                      </button>
+                      <input id="input-phone" class="lg-input phone-input-group__input" type="tel" dir="ltr" required autocomplete="tel-national" data-i18n-placeholder="contact.form.phonePlaceholder" />
+                      <div id="phone-code-menu" class="phone-code-menu" role="listbox" aria-label="Country dial codes">
+                        <div class="phone-code-menu__search-wrap">
+                          <input id="phone-code-search" type="text" class="phone-code-menu__search" data-i18n-placeholder="contact.form.phoneSearchPlaceholder" autocomplete="off" />
+                        </div>
+                        <div id="phone-code-list" class="phone-code-menu__list"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="input-scale" data-i18n="contact.form.scale"></label>
+                    <select id="input-scale" class="lg-input is-placeholder" required></select>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="input-service" data-i18n="contact.form.service"></label>
+                    <select id="input-service" class="lg-input is-placeholder" required></select>
+                  </div>
+
+                  <div class="form-field form-field--full">
+                    <label for="input-message" data-i18n="contact.form.message"></label>
+                    <textarea id="input-message" class="lg-input" required data-i18n-placeholder="contact.form.messagePlaceholder"></textarea>
+                  </div>
+
+                  <div class="form-field form-field--full" style="margin-top: 6px;">
+                    <button type="submit" class="lg-btn lg-btn--primary" style="width: 100%; padding-block: 15px;">
+                      <span data-i18n="contact.form.submit"></span>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+              <div id="form-success" class="form-success" role="status" aria-live="polite">
+                <div class="lg-icon" style="width: 68px; height: 68px; border-radius: 22px;">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h3 class="bento-card-title" data-i18n="contact.form.successTitle"></h3>
+                <p class="bento-card-text" style="max-width: 420px;" data-i18n="contact.form.successBody"></p>
+                <button id="form-reset" type="button" class="lg-btn lg-btn--glass lg-btn--sm" data-i18n="contact.form.reset"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="lg-card footer-card">
+        <div class="footer-grid">
+          <div>
+            <a href="#top" id="footer-brand-logo" class="footer-brand-wrap" aria-label="SADEN"></a>
+            <div class="footer-tagline" data-i18n="footer.tagline"></div>
+            <p class="footer-desc" data-i18n="footer.desc"></p>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title" data-i18n="footer.linksTitle"></h4>
+            <ul class="footer-links">
+              <li><a href="#about" data-i18n="nav.about"></a></li>
+              <li><a href="#services" data-i18n="nav.services"></a></li>
+              <li><a href="#model" data-i18n="nav.model"></a></li>
+              <li><a href="#identity" data-i18n="nav.identity"></a></li>
+              <li><a href="#media" data-i18n="nav.media"></a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title" data-i18n="footer.resourcesTitle"></h4>
+            <ul class="footer-links">
+              <li><a href="#contact" data-i18n="footer.requestService"></a></li>
+              <li><a href="https://wa.me/201508508123" target="_blank" rel="noopener" dir="ltr">@Sir.SADEN</a></li>
+              <li><a href="https://www.sadens.com" target="_blank" rel="noopener" dir="ltr">www.sadens.com</a></li>
+              <li><a href="mailto:info@sadens.com" dir="ltr">info@sadens.com</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span data-i18n="footer.copyRight"></span>
+
+          <!-- Social Media Liquid Glass Icons -->
+          <div class="social-links" aria-label="Social Media">
+            <a href="https://www.linkedin.com" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn" title="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook" title="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram" title="Instagram">
+              <svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://x.com" target="_blank" rel="noopener" class="social-btn" aria-label="X" title="X">
+              <svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg>
+            </a>
+            <a href="https://www.threads.net" target="_blank" rel="noopener" class="social-btn" aria-label="Threads" title="Threads">
+              <svg viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.2-5.1M16.5 11.8c0-2.5-1.6-4.1-4.1-4.1-2.2 0-3.8 1.4-3.8 3.5 0 2.2 1.5 3.6 3.7 3.6 1.8 0 3.2-1 3.7-2.6.6 2.1 2.2 2.4 3.3 1.4 1.1-1 1.3-2.9.9-4.7"/></svg>
+            </a>
+            <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-btn" aria-label="TikTok" title="TikTok">
+              <svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+            </a>
+          </div>
+
+          <span class="footer-domain-text" dir="ltr">www.sadens.com</span>
+        </div>
+
+        <!-- Designer Credit Line -->
+        <div class="footer-credit">
+          <span data-i18n="footer.designedBy">تم التصميم بواسطة</span>
+          <img src="assets/designer-logo.png" alt="Designer Logo" class="footer-credit__logo" />
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== 1 · SERIES TOPICS MODAL (Section 05) ==================== -->
+  <div id="media-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="lg-card modal-dialog">
+      <div class="modal-scroll">
+        <img id="modal-img" class="modal-hero-img" src="" alt="" />
+        <div class="modal-body">
+          <span id="modal-pillar" class="lg-pill" style="align-self: flex-start;"></span>
+          <h3 id="modal-title" class="bento-card-title" style="font-size: 1.42rem;"></h3>
+          <p id="modal-summary" class="bento-card-text"></p>
+          <div id="modal-topics-heading" class="modal-sub-heading"></div>
+          <div id="modal-topics-list" class="series-topics-list"></div>
+          <div class="modal-actions">
+            <button id="modal-cta" type="button" class="lg-btn lg-btn--primary lg-btn--sm"></button>
+            <button id="modal-close" type="button" class="lg-btn lg-btn--glass lg-btn--sm">
+              <span id="modal-close-text"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 2 · TOPIC READER MODAL (Opens from Series List) ==================== -->
+  <div id="topic-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="topic-modal-title">
+    <div class="lg-card modal-dialog">
+      <div class="modal-body">
+        <div class="topic-modal-top">
+          <span id="topic-modal-badge" class="lg-pill"></span>
+          <span id="topic-modal-duration" class="glass-tag"></span>
+        </div>
+        <h3 id="topic-modal-title" class="bento-card-title" style="font-size: 1.38rem;"></h3>
+        <p id="topic-modal-details" class="bento-card-text"></p>
+        <ul id="topic-modal-points" class="modal-takeaways"></ul>
+        <div class="modal-actions">
+          <a id="topic-modal-link" href="#" target="_blank" rel="noopener" class="lg-btn lg-btn--primary lg-btn--sm"></a>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button id="topic-modal-back" type="button" class="lg-btn lg-btn--glass lg-btn--sm"></button>
+            <button id="topic-modal-close" type="button" class="lg-btn lg-btn--glass lg-btn--sm"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 3 · EXPANDED CARD MODAL (Section 01 & Section 02) ==================== -->
+  <div id="detail-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="detail-modal-title">
+    <div class="lg-card modal-dialog detail-modal-dialog">
+      <div class="modal-body">
+        <div class="bento-card-head" style="margin-bottom: 4px;">
+          <div id="detail-modal-icon" class="lg-icon"></div>
+          <div>
+            <span id="detail-modal-eyebrow" class="bento-card-sub-label"></span>
+            <h3 id="detail-modal-title" class="bento-card-title" style="font-size: 1.38rem;"></h3>
+          </div>
+        </div>
+        <div id="detail-modal-content" class="detail-modal-content"></div>
+        <div id="detail-modal-tags" class="service-card__tags"></div>
+        <div class="modal-actions">
+          <button id="detail-modal-cta" type="button" class="lg-btn lg-btn--primary lg-btn--sm" style="display: none;"></button>
+          <button id="detail-modal-close" type="button" class="lg-btn lg-btn--glass lg-btn--sm"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts (Zero-build vanilla ES6, works both over file:// and HTTP) -->
+  <script src="js/logo-paths.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
